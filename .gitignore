@@ -1,0 +1,3 @@
+# Impede que o Streamlit suba lixo temporário
+.streamlit/
+__pycache__/
