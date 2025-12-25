@@ -8,7 +8,7 @@ st.set_page_config(page_title="Shopee Bot Pro", page_icon="💎", layout="center
 
 # --- EXPLICAÇÃO PARA LEIGOS ---
 # Aqui colocamos o endereço "mágico" que o Ngrok nos deu. É por aqui que o site conversa com o robô.
-API_URL = "https://SEU-LINK-AQUI.ngrok-free.app/processar"
+API_URL = "https://unsneaky-unsegregational-cristy.ngrok-free.dev/processar"
 
 st.title("💎 Shopee Bot Pro v3.0")
 st.caption("Interface de Busca Inteligente")
