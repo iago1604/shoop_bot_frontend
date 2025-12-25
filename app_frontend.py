@@ -2,51 +2,44 @@ import streamlit as st
 import requests
 
 # --- EXPLICAÇÃO PARA LEIGOS ---
-# Verifique se este link termina exatamente com '/processar'
-# E se não há espaços antes ou depois das aspas.
+# Toda vez que você ligar o Ngrok, você deve vir aqui e colar o link novo.
+# Exemplo: API_URL = "https://1234-abcd.ngrok-free.app/processar"
 API_URL = "https://unsneaky-unsegregational-cristy.ngrok-free.dev/processar"
 
 st.set_page_config(page_title="Shopee Bot Pro", page_icon="💎")
-st.title("💎 Shopee Bot Pro v3.7")
 
-url_input = st.text_input("Cole o link do produto aqui:")
+st.title("💎 Shopee Bot Pro v3.9")
+st.caption("Modo de Conexão Dinâmica (Ngrok)")
+
+url_input = st.text_input("Link do produto da Shopee:")
 
 if st.button("🚀 BUSCAR MELHOR PREÇO"):
     if url_input:
-        with st.status("🛰️ Tentando conexão com o Cérebro...", expanded=True) as status:
+        with st.status("🛰️ Conectando ao Cérebro...", expanded=True) as status:
             try:
-                # --- EXPLICAÇÃO PARA LEIGOS (MELHORIA v3.7) ---
-                # O Ngrok às vezes pergunta: "Você tem certeza que quer entrar neste site?"
-                # Este comando 'headers' abaixo responde "SIM" automaticamente para o robô não travar.
+                # --- EXPLICAÇÃO PARA LEIGOS ---
+                # Este cabeçalho "ngrok-skip-browser-warning" é OBRIGATÓRIO.
+                # Ele faz o Ngrok deixar o robô passar sem mostrar aquela tela de aviso.
                 headers = {
-                    "ngrok-skip-browser-warning": "69420",
-                    "User-Agent": "Mozilla/5.0"
+                    "ngrok-skip-browser-warning": "true"
                 }
                 
                 payload = {"url": url_input}
                 
-                # Fazemos a chamada para o Cérebro
-                response = requests.post(
-                    API_URL, 
-                    json=payload, 
-                    headers=headers, 
-                    timeout=180 # Esperamos até 3 minutos pelo robô
-                )
+                # Chamada para a API (Cérebro)
+                response = requests.post(API_URL, json=payload, headers=headers, timeout=180)
                 
                 if response.status_code == 200:
                     res = response.json()
                     if res.get("sucesso"):
                         status.update(label="✅ Conectado!", state="complete", expanded=False)
-                        st.success(f"### Encontrado: {res['titulo']}")
+                        st.success(f"### {res['titulo']}")
                         st.metric("Preço", f"R$ {res['preco']:.2f}")
                         st.code(res['link_afiliado'])
                     else:
-                        st.error(f"Erro no Cérebro: {res.get('erro')}")
+                        st.error(f"Erro: {res.get('erro')}")
                 else:
-                    # --- EXPLICAÇÃO PARA LEIGOS ---
-                    # Se o código não for 200, algo bloqueou o caminho (Firewall ou Ngrok offline).
-                    st.error(f"Falha na rede externa. Código de erro: {response.status_code}")
-                    st.info("Verifique se o link do Ngrok no código é o mesmo que está aparecendo no terminal da VM B.")
-
+                    st.error(f"Falha na rede (Erro {response.status_code}). Verifique se o link no código é o mesmo do Ngrok.")
+            
             except Exception as e:
-                st.error(f"Não foi possível alcançar o Cérebro: {e}")
+                st.error(f"Não foi possível conectar: {e}") 
