@@ -2,44 +2,49 @@ import streamlit as st
 import requests
 
 # --- EXPLICAÇÃO PARA LEIGOS ---
-# Toda vez que você ligar o Ngrok, você deve vir aqui e colar o link novo.
-# Exemplo: API_URL = "https://1234-abcd.ngrok-free.app/processar"
-API_URL = "https://unsneaky-unsegregational-cristy.ngrok-free.dev/processar"
+# Endereço do seu Cérebro (Ngrok). Lembre-se de atualizar se o Ngrok reiniciar!
+API_URL = "https://SEU-LINK-AQUI.ngrok-free.app/processar"
 
-st.set_page_config(page_title="Shopee Bot Pro", page_icon="💎")
+st.set_page_config(page_title="Shopee Bot Pro v4.0", page_icon="💎")
+st.title("💎 Shopee Bot Pro v4.0")
 
-st.title("💎 Shopee Bot Pro v3.9")
-st.caption("Modo de Conexão Dinâmica (Ngrok)")
+# --- EXPLICAÇÃO PARA LEIGOS ---
+# Criamos um botão que "abre" opções escondidas de busca.
+with st.expander("🛠️ Busca Avançada", expanded=False):
+    st.info("Escolha o nível de precisão para validar o produto:")
+    modo_precisao = st.radio(
+        "Quantidade de palavras para conferência (Âncora):",
+        options=[3, 5],
+        index=0,
+        help="3 palavras: Mais chance de achar. 5 palavras: Só aceita se for exatamente igual."
+    )
 
-url_input = st.text_input("Link do produto da Shopee:")
+url_input = st.text_input("Link do produto:")
 
-if st.button("🚀 BUSCAR MELHOR PREÇO"):
+if st.button("🚀 EXECUTAR BUSCA"):
     if url_input:
-        with st.status("🛰️ Conectando ao Cérebro...", expanded=True) as status:
+        with st.status("🛰️ Processando com Busca Avançada...", expanded=True) as status:
             try:
+                headers = {"ngrok-skip-browser-warning": "true"}
                 # --- EXPLICAÇÃO PARA LEIGOS ---
-                # Este cabeçalho "ngrok-skip-browser-warning" é OBRIGATÓRIO.
-                # Ele faz o Ngrok deixar o robô passar sem mostrar aquela tela de aviso.
-                headers = {
-                    "ngrok-skip-browser-warning": "true"
+                # Agora enviamos para o robô não só o link, mas também o nível de precisão escolhido.
+                payload = {
+                    "url": url_input,
+                    "num_ancoras": modo_precisao
                 }
                 
-                payload = {"url": url_input}
-                
-                # Chamada para a API (Cérebro)
                 response = requests.post(API_URL, json=payload, headers=headers, timeout=180)
                 
                 if response.status_code == 200:
                     res = response.json()
                     if res.get("sucesso"):
-                        status.update(label="✅ Conectado!", state="complete", expanded=False)
+                        status.update(label="✅ Produto Identificado!", state="complete", expanded=False)
                         st.success(f"### {res['titulo']}")
-                        st.metric("Preço", f"R$ {res['preco']:.2f}")
+                        st.metric("Melhor Preço", f"R$ {res['preco']:.2f}")
                         st.code(res['link_afiliado'])
                     else:
                         st.error(f"Erro: {res.get('erro')}")
                 else:
-                    st.error(f"Falha na rede (Erro {response.status_code}). Verifique se o link no código é o mesmo do Ngrok.")
-            
+                    st.error(f"Falha na rede (Status {response.status_code})")
             except Exception as e:
-                st.error(f"Não foi possível conectar: {e}") 
+                st.error(f"Erro de conexão: {e}")
