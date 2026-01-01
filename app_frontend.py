@@ -3,7 +3,7 @@ import requests
 
 # --- EXPLICAÇÃO PARA LEIGOS ---
 # Endereço do seu Cérebro (Ngrok). Lembre-se de atualizar se o Ngrok reiniciar!
-API_URL = "https://SEU-LINK-AQUI.ngrok-free.app/processar"
+API_URL = "https://unsneaky-unsegregational-cristy.ngrok-free.dev/processar"
 
 st.set_page_config(page_title="Shopee Bot Pro v4.0", page_icon="💎")
 st.title("💎 Shopee Bot Pro v4.0")
