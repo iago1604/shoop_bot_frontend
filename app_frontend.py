@@ -5,7 +5,7 @@ import time
 # --- EXPLICAÇÃO PARA LEIGOS (v7.0) ---
 # 1. Cole seu link do Ngrok aqui. 
 # 2. O robô limpa o link automaticamente para evitar erros de conexão.
-API_URL_BASE = "https://SEU-LINK-NGROK-AQUI.ngrok-free.app".strip().strip("/")
+API_URL_BASE = "https://unsneaky-unsegregational-cristy.ngrok-free.dev".strip().strip("/")
 
 # --- CONFIGURAÇÃO VISUAL ---
 st.set_page_config(page_title="Shopee Bot Pro v7.0", page_icon="💎", layout="wide")
