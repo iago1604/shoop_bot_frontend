@@ -2,7 +2,7 @@ import streamlit as st
 import requests, time
 
 # --- CONFIGURAÇÃO ---
-API_URL_BASE = "https://SEU-LINK-NGROK-AQUI.ngrok-free.app".strip().strip("/")
+API_URL_BASE = "https://unsneaky-unsegregational-cristy.ngrok-free.dev".strip().strip("/")
 
 st.set_page_config(page_title="Shopee Bot Pro v10.0", page_icon="💎", layout="wide")
 
