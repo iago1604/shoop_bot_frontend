@@ -2,29 +2,30 @@ import streamlit as st
 import requests, time
 
 API_URL_BASE = "https://unsneaky-unsegregational-cristy.ngrok-free.dev".strip().strip("/")
-st.set_page_config(page_title="Shopee Bot Pro v12.0", page_icon="💎", layout="wide")
+st.set_page_config(page_title="Shopee Bot Pro v13.0 Stealth", page_icon="💎", layout="wide")
 
 st.markdown("""<style>.stButton>button { width: 100%; border-radius: 10px; background-color: #ff4b2b; color: white; font-weight: bold; }
 .stMetric { background-color: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee; }</style>""", unsafe_allow_html=True)
 
 if 'url_tentada' not in st.session_state: st.session_state.url_tentada = ""
 
-st.title("💎 Shopee Bot Pro v12.0")
+st.title("💎 Shopee Bot Pro v13.0")
+st.caption("Anti-Detection Stealth Engine Ativo")
 
 with st.sidebar:
-    st.header("⚙️ Configurações")
-    modo_debug = st.checkbox("Modo Debug Analítico 🛠️", value=True)
-    st.info("Estratégia: Broad Search Ranking")
+    st.header("⚙️ Suporte")
+    if st.button("🚩 Reportar Erro"): st.toast("Use o modal de erro (v6.6)")
+    modo_debug = st.checkbox("Modo Debug 🛠️", value=True)
 
-nivel_texto = st.select_slider("Fidelidade:", options=["Nada Fiel", "Pouco Fiel", "Fiel (Padrão)", "Bem Fiel", "Muito Fiel"], value="Fiel (Padrão)")
+nivel_texto = st.select_slider("Fidelidade da Busca:", options=["Nada Fiel", "Pouco Fiel", "Fiel (Padrão)", "Bem Fiel", "Muito Fiel"], value="Fiel (Padrão)")
 map_fid = {"Nada Fiel": 1, "Pouco Fiel": 2, "Fiel (Padrão)": 3, "Bem Fiel": 4, "Muito Fiel": 5}
 
-url_input = st.text_input("Link original da Shopee:")
+url_input = st.text_input("Link do produto:")
 
-if st.button("🚀 EXECUTAR BUSCA INTELIGENTE"):
+if st.button("🚀 EXECUTAR"):
     if url_input:
         st.session_state.url_tentada = url_input
-        with st.status("🛰️ Interceptando dados e gerando ranking...", expanded=True) as status:
+        with st.status("🛰️ Interceptando dados via Stealth Mode...", expanded=True) as status:
             try:
                 headers = {"ngrok-skip-browser-warning": "true"}
                 payload = {"url": url_input, "nivel_fidelidade": map_fid[nivel_texto], "debug": modo_debug}
@@ -41,20 +42,18 @@ if st.button("🚀 EXECUTAR BUSCA INTELIGENTE"):
                     st.code(res['link_afiliado'])
                     st.link_button("🌍 Abrir Link", res['link_afiliado'], use_container_width=True)
 
-                    # --- PAINEL v12 ANALÍTICO ---
                     if modo_debug and res.get("dados_debug"):
                         db = res["dados_debug"]
-                        with st.expander("🔍 ANÁLISE DE MERCADO (Ghost Engine Ranking)", expanded=True):
-                            st.info(f"**Estratégia de Busca:** {db.get('termo_usado', 'N/A')}")
-                            col1, col2, col3 = st.columns(3)
-                            col1.metric("Itens Capturados", db.get('total_capturado', 0))
-                            col2.metric("Aprovados", db.get('total_aprovado', 0))
-                            col3.metric("Eliminados", db.get('total_capturado', 0) - db.get('total_aprovado', 0))
-                            
-                            st.subheader("🏆 Ranking de Candidatos (Top 8)")
-                            st.caption("Itens que passaram nos filtros e são mais baratos:")
-                            st.table(db.get('ranking', []))
-                else:
-                    st.error(f"Erro: {res.get('erro')}")
-            except Exception as e:
-                st.error(f"Falha de conexão: {e}")
+                        with st.expander("🔍 RELATÓRIO TÉCNICO (Anti-Stall)", expanded=True):
+                            st.info(f"**Termo usado:** {db.get('termo', 'N/A')}")
+                            col1, col2 = st.columns(2)
+                            st.metric("Itens na API", db.get('capturados', 0))
+                            st.metric("Aprovados", db.get('aprovados', 0))
+                            if db.get('ranking'):
+                                st.subheader("🏆 Melhores Candidatos")
+                                st.dataframe(db['ranking'])
+                            if not db.get('aprovados'):
+                                st.error("🚨 Nenhum item passou! Veja os eliminados:")
+                                st.table(db.get('near_misses', []))
+                else: st.error(f"Erro: {res.get('erro')}")
+            except Exception as e: st.error(f"Falha de conexão: {e}")
