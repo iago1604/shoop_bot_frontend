@@ -1,14 +1,10 @@
 # shoop_bot_frontend
 boot da shoop
 
-🛡️ v14.0 - [Sentinel Edition: Inteligência Semântica & Busca em Cascata]
-Status: Atual / Estável
-Foco: Precisão de Busca e Evasão de Bloqueios.
-🚀 O que mudou nesta versão?
-Módulo de NLP (Processamento de Linguagem Natural): Integração com a inteligência spaCy. O robô agora "lê" o produto como um humano, separando o que é Marca, Modelo e Produto, ignorando palavras inúteis (promoção, oferta, original).
-Mecanismo de Busca em Cascata: Implementação de 4 níveis de tentativa automática. Se o robô não encontra o item com o nome completo, ele simplifica a busca progressivamente até achar resultados válidos, eliminando o erro de "Nenhum Produto Encontrado".
-Lematização de Dados: O bot converte automaticamente palavras (ex: "Fritadeiras") para o radical (ex: "Fritadeira"), garantindo que anúncios com nomes escritos de forma diferente sejam capturados.
-Sentinel Stealth (CDP): Transição para conexão via Chrome DevTools Protocol. O robô agora opera "pendurado" em uma instância real do Chrome, tornando-se 100% indetectável pelos sistemas anti-bot da Shopee.
-Aquecimento de Perfil (Warm-up): O robô agora simula navegação humana orgânica (rolagens e cliques na home) antes de acessar áreas críticas, aumentando a confiança da conta perante a plataforma.
-🧠 Explicação para Leigos
-"Nesta versão, o robô deixou de ser um simples buscador de textos e ganhou um cérebro que entende português. Se você procurar uma Air Fryer, ele sabe que 'Air Fryer' é o produto e 'Mondial' é a marca. Se ele não achar o modelo exato de primeira, ele 'abaixa o rigor' sozinho até encontrar a melhor oferta para você, sempre garantindo que não seja uma capinha ou acessório."
+🛡️ [v15.1] - [Sentinel Stealth + Human-in-the-loop + NLP Intelligence] - 2024-05-24
+🚀 Novidades desta Versão:
+Captcha Monitor (v15.1): Sistema de detecção de bloqueio que pausa a automação e solicita intervenção humana, garantindo que o robô nunca trave em desafios de segurança.
+Stealth Engine 2.0: Camuflagem avançada de hardware e impressões digitais (fingerprint) para evitar que a Shopee identifique o navegador como automatizado.
+NLP Semantic Cleanup: Uso de Inteligência Artificial (spaCy) para extrair apenas Marca e Modelo, protegendo códigos técnicos (SKU) como "RTX3050" ou "5G".
+Ghost API Interception: Interceptação direta dos dados brutos da Shopee, tornando o bot 10x mais rápido e imune a mudanças visuais no site.
+Matriz de Fidelidade Ponderada: Controle total de precisão (1 a 5) com filtros inteligentes de preço para evitar acessórios.
